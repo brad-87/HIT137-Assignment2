@@ -99,9 +99,38 @@ def main():
     # Read 'raw_text.txt' and store data into raw_input string
     raw_input = read_file("raw_text.txt")
 
+    
     # Get shift values from user and validate input
     shift1 = validate_int_input("Enter shift 1: ")
     shift2 = validate_int_input("Enter shift 2: ")
+
+
+    # Test stings to ensure encryption is reversable
+    string_lower = "abcdefghijklmnopqrstuvwxyz"
+    string_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    # Encrypt test strings with entered shift values
+    encrypted_lower = encrypt_text(string_lower,shift1,shift2)
+    encrypted_upper = encrypt_text(string_upper,shift1,shift2)
+
+    
+    '''    
+    ###
+    ###  Depending on the raw text, very few value pairs work
+    ###  due to mathamatics behind the given cypher methods.
+    ###
+    '''
+
+
+    # Check if deencryption will be ambiguous - Determine if the encrypted test strings give any repeated characters.
+    lower_unique = len(encrypted_lower) == len(set(encrypted_lower))
+    upper_unique = len(encrypted_upper) == len(set(encrypted_upper))
+
+    # If there were repeated characters, warn the user that decryption may not work as expected
+    if not (lower_unique and upper_unique):
+            print("\n!!!\n!!! Warning: These shift values do not produce a reversible mapping! Decryption may fail.\n!!!\n")
+
+
 
      # Encrypt the original text using the given shift values
     encrypted_text = encrypt_text(raw_input, shift1, shift2)
@@ -123,16 +152,22 @@ def main():
 
     print("Decryption complete. Check decrypted_text.txt")
 
-    # Optional check
-    if raw_input == decrypted_text:
-        print("Decryption successful: matches original")
-    else:
-        print("Decryption failed")
 
-    # for testing only
-    print(raw_input)
-    print(shift1)
-    print(shift2)
+
+    print("\n\nOriginal text:\t" + raw_input)
+    print("Encrypted text:\t" + encrypted_text)
+    print("Decrypted text:\t" + decrypted_text + "\n\n")
+
+    
+    # Read both files and compare contents.
+    file_1_contents = read_file("raw_text.txt")
+    file_2_contents = read_file("decrypted_text.txt")
+    if file_1_contents == file_2_contents:
+        print("Decryption successful: File contents match")
+    else:
+        print("Decryption failed: File content doesn't match")
+
+
 
 
 main()
