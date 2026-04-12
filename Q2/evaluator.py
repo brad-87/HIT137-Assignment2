@@ -17,11 +17,13 @@ def tokenize(expr: str):
     if ch.isdigit():
       num = ch
       i += 1
+      
       while i < len(expr) and expr[i].isdigit():  ?
         num += expr[i]
         i += 1
-        tokens.append(("NUM", num))
-        continue  ?
+        
+      tokens.append(("NUM", num))
+      continue  ?
     
     elif ch in "+-*/":  ?
       tokens.append(("OP", ch))
@@ -39,9 +41,9 @@ def tokenize(expr: str):
       raise ValueError("Invalid character")  ?
       
     i += 1  ?
-
-tokens.append(("End", ""))
-return tokens
+    
+  tokens.append(("END", ""))
+  return tokens
 
 #Step 3: Recursive Descent Parser
 def parse_expression():
@@ -59,12 +61,14 @@ def parse_term():
 
   while current_token()[1] in ("*", "/"):
     op = consume()[1]
-    right = parse_term()
+    right = parse_factor()
     node = (op, node, right)
     
   return node 
 
 def parse_factor():
+  tok_type, tok_value = current_token()
+
   if token_type == "OP" and token_value == "-":
     consume()
     return ("neg", parse_factor())
@@ -76,12 +80,23 @@ def parse_factor():
   if token_type == "LPAREN":
     consume()
     node = parse_expression()
+    
     if current_token()[0] != "RPAREN":
       raise ValueError("Missing )")
+      
     consume()
     return node
     
   raise ValueError("Invalid Syntax")
+
+def current_tokens():
+  return token[pos]
+
+def consume():
+  global pos
+  tok = tokens[pos]
+  pos += 1
+  return token
 
 #Step 4: Parse Tree
 def tree_to_string(node):
