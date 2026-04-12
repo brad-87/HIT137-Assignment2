@@ -4,7 +4,7 @@ def evaluate_file(input_path: str):
     lines = file.readlines()
     
  for line in lines:
-        print(line.strip())
+     print(line.strip())
 
 #Step 2: Tokenizer Converting string into tokens 
 def tokenize(expr: str):
