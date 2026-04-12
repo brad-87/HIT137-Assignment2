@@ -64,6 +64,45 @@ def parse_term():
     
   return node 
 
+def parse_factor():
+  if token_type == "OP" and token_value == "-":
+    consume()
+    return ("neg", parse_factor())
+   
+  if token_type == "NUM":
+    consume()
+    return float(token_value)
+    
+  if token_type == "LPAREN":
+    consume()
+    node = parse_expression()
+    if current_token()[0] != "RPAREN":
+      raise ValueError("Missing )")
+    consume()
+    return node
+    
+  raise ValueError("Invalid Syntax")
+
+#Step 4: Parse Tree
+def tree_to_string(node):
+  if isinstance(node, float):
+    return str(int(node)) if node.is_integer() else str(node)
+    
+  if node[0] == "neg":
+    return f"(neg {tree_to_string(node[1])})"
+    
+  op, left, right = node
+  return f"({op} {tree_to_string(left)} {tree_to_string(right)})"
+
+#Step 5: Evaluate Tree
+    
+                       
+                  
+      
+
+            
+    
+
   
 
 
