@@ -1,8 +1,74 @@
 #Step 1: Read input file
 def evaluate_file(input_path: str):
   with open(input_path, "r") as file:
-    lines = f.readlines()
+    lines = file.readlines()
+    
  for line in lines:
         print(line.strip())
 
 #Step 2: Tokenizer Converting string into tokens 
+def tokenize(expr: str):
+  tokens = []
+  i = 0
+  
+  while i < len(expr):  ?
+    ch = expr[i]
+    
+    if ch.isdigit():
+      num = ch
+      i += 1
+      while i < len(expr) and expr[i].isdigit():  ?
+        num += expr[i]
+        i += 1
+        tokens.append(("NUM", num))
+        continue  ?
+    
+    elif ch in "+-*/":  ?
+      tokens.append(("OP", ch))
+    
+    elif ch == "(":
+      tokens.append(("LPAREN", ch))
+      
+    elif ch == ")":
+      tokens.append(("RPAREN", ch))
+      
+    elif ch.isspace():  ?
+      pass
+      
+    else:
+      raise ValueError("Invalid character")  ?
+      
+    i += 1  ?
+
+tokens.append(("End", ""))
+return tokens
+
+#Step 3: Recursive Descent Parser
+def parse_expression():
+  node = parse_term()
+
+  while current_token()[1] in ("+", "-"):
+    op = consume()[1]
+    right = parse_term()
+    node = (op, node, right)
+    
+  return node 
+
+def parse_term():
+  node = parse_factor()
+
+  while current_token()[1] in ("*", "/"):
+    op = consume()[1]
+    right = parse_term()
+    node = (op, node, right)
+    
+  return node 
+
+  
+
+
+
+
+
+
+    
