@@ -2,9 +2,9 @@
 def evaluate_file(input_path: str):
   with open(input_path, "r") as file:
     lines = file.readlines()
-    
- for line in lines:
-     print(line.strip())
+  
+  for line in lines:
+    print(line.strip())
 
 #Step 2: Tokenizer Converting string into tokens 
 def tokenize(expr: str):
