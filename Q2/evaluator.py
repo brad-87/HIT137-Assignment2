@@ -4,6 +4,9 @@ def evaluate_file(input_path: str):
     for line in file:
       expr = line.strip()
       
+      if not expr:
+        continue
+      
       try:
         tree = process_expression(expr)
         
@@ -11,10 +14,23 @@ def evaluate_file(input_path: str):
         print("Tree:", tree_to_string(tree))
         print()
       
-    except:
-      print("Input:", expr)
-      print("ERROR")
-      print()
+      except:
+        print("Input:", expr)
+        print("ERROR")
+        print()
+
+def process_expression(expr):
+  global tokens, pos
+  
+  tokens = tokenize(expr)
+  pos = 0
+  
+  tree = parse_expression()
+  
+  if current_token()[0] != "END":
+    raise ValueError()
+  
+  return tree
       
 #Step 2: Tokenizer Converting string into tokens 
 def tokenize(expr: str):
@@ -45,7 +61,8 @@ def tokenize(expr: str):
       tokens.append(("RPAREN", ch))
       
     elif ch.isspace():  ?
-      pass
+      i += 1
+      continue
       
     else:
       raise ValueError("Invalid character")  ?
@@ -79,6 +96,9 @@ def parse_term():
 def parse_factor():
   token_type, token_value = current_token()
 
+  if token_type == "OP" and token_value == "+":
+    raise ValueError("Unary + not allowed")
+    
   if token_type == "OP" and token_value == "-":
     consume()
     return ("neg", parse_factor())
