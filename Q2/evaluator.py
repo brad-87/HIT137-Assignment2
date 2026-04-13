@@ -1,11 +1,21 @@
 #Step 1: Read input file
 def evaluate_file(input_path: str):
   with open(input_path, "r") as file:
-    lines = file.readlines()
-  
-  for line in lines:
-    print(line.strip())
-
+    for line in file:
+      expr = line.strip()
+      
+      try:
+        tree = process_expression(expr)
+        
+        print("Input:", expr)
+        print("Tree:", tree_to_string(tree))
+        print()
+      
+    except:
+      print("Input:", expr)
+      print("ERROR")
+      print()
+      
 #Step 2: Tokenizer Converting string into tokens 
 def tokenize(expr: str):
   tokens = []
@@ -67,7 +77,7 @@ def parse_term():
   return node 
 
 def parse_factor():
-  tok_type, tok_value = current_token()
+  token_type, token_value = current_token()
 
   if token_type == "OP" and token_value == "-":
     consume()
@@ -89,12 +99,15 @@ def parse_factor():
     
   raise ValueError("Invalid Syntax")
 
-def current_tokens():
-  return token[pos]
+tokens = []
+pos = 0
+
+def current_token():
+  return tokens[pos]
 
 def consume():
   global pos
-  tok = tokens[pos]
+  token = tokens[pos]
   pos += 1
   return token
 
