@@ -33,3 +33,8 @@ Tree: (/ 4 1)
 Tokens: [NUM:4] [OP:/] [NUM:1] [END]
 Result: 4
 
+Input: 15 / ( 12 - (2 * 6) )
+Tree: (/ 15 (- 12 (* 2 6)))
+Tokens: [NUM:15] [OP:/] [LPAREN:(] [NUM:12] [OP:-] [LPAREN:(] [NUM:2] [OP:*] [NUM:6] [RPAREN:)] [RPAREN:)] [END]
+Result: ERROR
+
