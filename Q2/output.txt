@@ -38,3 +38,12 @@ Tree: (/ 15 (- 12 (* 2 6)))
 Tokens: [NUM:15] [OP:/] [LPAREN:(] [NUM:12] [OP:-] [LPAREN:(] [NUM:2] [OP:*] [NUM:6] [RPAREN:)] [RPAREN:)] [END]
 Result: ERROR
 
+Input: (10 - (3 * 2)) * 5 + -8 / 4
+Tree: (+ (* (- 10 (* 3 2)) 5) (/ (neg 8) 4))
+Tokens: [LPAREN:(] [NUM:10] [OP:-] [LPAREN:(] [NUM:3] [OP:*] [NUM:2] [RPAREN:)] [RPAREN:)] [OP:*] [NUM:5][OP:+] [OP:-] [NUM:8] [OP:/] [NUM:4] [END] 
+Result: 18
+
+Input: (6 + 2) * 3 - 4 / 2
+Tree: (- (* (+ 6 2) 3) (/ 4 2))
+Tokens: [LPAREN:(] [NUM:6] [OP:+] [NUM:2] [RPAREN:)] [OP:*] [NUM:3] [OP:-] [NUM:4] [OP:/] [NUM:2] [END]
+Result: 22
