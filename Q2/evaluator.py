@@ -23,6 +23,7 @@ def evaluate_file(input_path: str):
         tree_string = tree_to_string(tree)
         
         # Get formatted token string
+        tree, tokens = process_expression(expr)
         token_string = format_tokens(tokens)
 
         try:
@@ -72,7 +73,7 @@ def process_expression(expr):
   
   # Make sure the entire expression was consumed during parsing
   if current_token()[0] != "END":
-    raise ValueError()
+    raise ValueError("Unexpected token after expression")
   
   return tree
 
@@ -97,7 +98,7 @@ def tokenize(expr: str):
         num += expr[i]
         i += 1
         
-      tokens.append(("NUM", num))
+      tokens.append(("NUM", num, i))
       continue  
     
     # Detect the operators
